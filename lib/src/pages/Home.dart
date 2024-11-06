@@ -1,10 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:yo_link/src/entitis/device_info.dart';
+import 'package:yo_link/src/utils/logger.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => HomePageState();
+}
+
+class HomePageState extends State<HomePage> {
+
+  bool isOpen = false;
+  bool showHelp = false;
+  var number = 0;
+
+  var deviceInfo = DeviceInfo(ip: '', name: '');
+
   void _handleClick(BuildContext context) {
-    Navigator.pushNamed(context, '/');
+    // Navigator.pushNamed(context, '/');
+    setState(() {
+      number++;
+      deviceInfo.fix(newName: 'you is a pig', newIp: '192.168.0.37');
+    });
+    logger.d('number: $number');
+    deviceInfo.copy();
   }
 
   @override
@@ -42,12 +62,12 @@ class HomePage extends StatelessWidget {
               spacing: 10,
               children: [
                 Text(
-                  '设备名称',
+                  '设备名称${deviceInfo.name}',
                   textAlign: TextAlign.center,
                   style: TextStyle(backgroundColor: Colors.amber),
                 ),
                 Text('开启按钮'),
-                Text('设备ip'),
+                Text('设备ip${deviceInfo.ip}'),
                 Text('wifi 和 共享设备的按钮'),
               ],
             ),

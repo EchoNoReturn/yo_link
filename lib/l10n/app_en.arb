@@ -1,0 +1,12 @@
+{
+  "@@locale": "en",
+  "appVersion": "App Version: {version}",
+  "@appVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "description": "The version of the app"
+      }
+    }
+  }
+}

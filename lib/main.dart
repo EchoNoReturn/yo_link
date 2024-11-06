@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yo_link/src/pages/Home.dart';
+import 'package:yo_link/l10n/gen/app_localizations.dart';
+import 'package:yo_link/src/pages/home.dart';
 import 'package:yo_link/src/utils/resize.dart';
 
 void main() async {
@@ -14,13 +15,15 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      routes: {
-        '/': (context) => HomePage(),
-      },
-      initialRoute: '/',
-      onUnknownRoute: (settings) => MaterialPageRoute(
-        builder: (context) => HomePage(), // 跳转错了就回到首页
-      )
-    );
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: AppLocalizations.supportedLocales[1],
+        routes: {
+          '/': (context) => HomePage(),
+        },
+        initialRoute: '/',
+        onUnknownRoute: (settings) => MaterialPageRoute(
+              builder: (context) => HomePage(), // 跳转错了就回到首页
+            ));
   }
 }
