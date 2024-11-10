@@ -95,14 +95,63 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('zh')
+    Locale('zh'),
+    Locale('zh', 'CN')
   ];
 
   /// No description provided for @appVersion.
   ///
-  /// In zh, this message translates to:
-  /// **'版本号：{version}'**
+  /// In en, this message translates to:
+  /// **'App Version: {version}'**
   String appVersion(String version);
+
+  /// No description provided for @deviceIpInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Device Ip: {ip}'**
+  String deviceIpInfo(String ip);
+
+  /// No description provided for @deviceName.
+  ///
+  /// In en, this message translates to:
+  /// **'Device Name: {name}'**
+  String deviceName(String name);
+
+  /// No description provided for @shareDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Share To: {number}'**
+  String shareDevice(int number);
+
+  /// No description provided for @modeInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Mode:'**
+  String get modeInfo;
+
+  /// No description provided for @github.
+  ///
+  /// In en, this message translates to:
+  /// **'Github'**
+  String get github;
+
+  /// No description provided for @wechat.
+  ///
+  /// In en, this message translates to:
+  /// **'WeChat'**
+  String get wechat;
+
+  /// No description provided for @qq.
+  ///
+  /// In en, this message translates to:
+  /// **'QQ'**
+  String get qq;
+
+  /// No description provided for @document.
+  ///
+  /// In en, this message translates to:
+  /// **'Help Document'**
+  String get document;
 }
 
 class _AppLocalizationsDelegate
@@ -123,6 +172,18 @@ class _AppLocalizationsDelegate
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when language+country codes are specified.
+  switch (locale.languageCode) {
+    case 'zh':
+      {
+        switch (locale.countryCode) {
+          case 'CN':
+            return AppLocalizationsZhCn();
+        }
+        break;
+      }
+  }
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'en':

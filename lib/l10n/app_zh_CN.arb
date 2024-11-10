@@ -1,49 +1,49 @@
 {
-  "@@locale": "en",
-  "appVersion": "App Version: {version}",
+  "@@locale": "zh_CN",
+  "appVersion": "版本号：{version}",
   "@appVersion": {
     "placeholders": {
       "version": {
         "type": "String",
-        "description": "The version of the app"
+        "description": "软件版本号"
       }
     }
   },
-  "deviceIpInfo": "Device Ip: {ip}",
+  "deviceIpInfo": "设备IP: {ip}",
   "@deviceIpInfo": {
     "placeholders": {
       "ip": {
         "type": "String",
-        "description": "Device Ip"
+        "description": "设备IP地址"
       }
     }
   },
-  "deviceName": "Device Name: {name}",
+  "deviceName": "设备名称: {name}",
   "@deviceName": {
     "placeholders": {
       "name": {
         "type": "String",
-        "description": "Device Name"
+        "description": "设备名称"
       }
     }
   },
-  "shareDevice": "Share To: {number}",
+  "shareDevice": "共享: {number}台",
   "@shareDevice": {
     "placeholders": {
       "number": {
         "type": "int",
-        "description": "Number of devices"
+        "description": "共享的设备数量"
       }
     }
   },
-  "modeInfo": "Mode:",
+  "modeInfo": "模式：",
   "@modeInfo": {},
   "github": "Github",
   "@github": {},
-  "wechat": "WeChat",
+  "wechat": "微信公众号",
   "@wechat": {},
-  "qq": "QQ",
+  "qq": "腾讯QQ",
   "@qq": {},
-  "document": "Help Document",
+  "document": "使用说明",
   "@document": {}
 }

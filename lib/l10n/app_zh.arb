@@ -8,5 +8,42 @@
         "description": "软件版本号"
       }
     }
-  }
+  },
+  "deviceIpInfo": "设备IP: {ip}",
+  "@deviceIpInfo": {
+    "placeholders": {
+      "ip": {
+        "type": "String",
+        "description": "设备IP地址"
+      }
+    }
+  },
+  "deviceName": "设备名称: {name}",
+  "@deviceName": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "description": "设备名称"
+      }
+    }
+  },
+  "shareDevice": "共享: {number}台",
+  "@shareDevice": {
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "description": "共享的设备数量"
+      }
+    }
+  },
+  "modeInfo": "模式: ",
+  "@modeInfo": {},
+  "github": "Github",
+  "@github": {},
+  "wechat": "微信公众号",
+  "@wechat": {},
+  "qq": "腾讯QQ",
+  "@qq": {},
+  "document": "使用说明",
+  "@document": {}
 }
