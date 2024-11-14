@@ -29,6 +29,7 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    // _checkWifiPermission();
     _loadIpAddress();
   }
 
@@ -42,6 +43,7 @@ class HomePageState extends State<HomePage> {
   void checkoutPermissions() async {
     /// WiFi 权限
     var wifiState = await Permission.nearbyWifiDevices.status;
+
     /// 蓝牙权限
     var bluetoothState = await Permission.bluetooth.status;
     logger.d('[权限检查结果] wifiState: $wifiState, bluetoothState: $bluetoothState');
@@ -68,9 +70,13 @@ class HomePageState extends State<HomePage> {
       // );
     } else if (wifiState.isDenied) {
       logger.d('WiFi 权限未授权, 开始申请');
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("请授予权限")));
       Permission.nearbyWifiDevices.request();
     } else if (wifiState.isPermanentlyDenied) {
       logger.d('WiFi 权限被永久拒绝, 请手动开启');
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("请授予权限")));
     }
   }
 
@@ -81,12 +87,12 @@ class HomePageState extends State<HomePage> {
   }
 
   void _handleClick(BuildContext context) {
-    // Navigator.pushNamed(context, '/');
-    setState(() {
-      number++;
-    });
-    logger.d('number: $number');
-    deviceInfo.copy();
+    Navigator.pushNamed(context, '/config');
+    // setState(() {
+    //   number++;
+    // });
+    // logger.d('number: $number');
+    // deviceInfo.copy();
   }
 
   @override
@@ -160,7 +166,9 @@ class HomePageState extends State<HomePage> {
                     children: [
                       // 两个按钮
                       ElevatedButton(
-                        onPressed: () => _handleClick(context),
+                        onPressed: () => {
+                          Navigator.pushNamed(context, '/link_config')
+                        },
                         style: ElevatedButton.styleFrom(
                           elevation: 3,
                           backgroundColor:

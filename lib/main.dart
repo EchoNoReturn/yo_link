@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yo_link/l10n/gen/app_localizations.dart';
+import 'package:yo_link/src/pages/config.dart';
 import 'package:yo_link/src/pages/home.dart';
+import 'package:yo_link/src/pages/link_config.dart';
 import 'package:yo_link/src/utils/resize.dart';
 
 void main() async {
@@ -20,6 +22,8 @@ class MainApp extends StatelessWidget {
         locale: AppLocalizations.supportedLocales[1],
         routes: {
           '/': (context) => HomePage(),
+          '/config': (context) => const ConfigPage(),
+          '/link_config': (context) => const LinkConfigPage(),
         },
         initialRoute: '/',
         onUnknownRoute: (settings) => MaterialPageRoute(
