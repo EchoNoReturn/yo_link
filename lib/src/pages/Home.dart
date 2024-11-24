@@ -8,6 +8,7 @@ import 'package:yo_link/src/entitis/device_info.dart';
 import 'package:yo_link/src/entitis/help_link_info.dart';
 import 'package:yo_link/src/pages/components/device_info_box.dart';
 import 'package:yo_link/src/pages/components/open_btn.dart';
+import 'package:yo_link/src/server/yo_server.dart';
 import 'package:yo_link/src/utils/device_info.dart';
 import 'package:yo_link/src/utils/logger.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -20,6 +21,8 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  YoServer server = YoServer();
+  int port = 8888;
   // 应用必备权限状态
 
   bool isOpen = false;
@@ -32,6 +35,7 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    server.start(port);
     // var state = await Permission.nearbyWifiDevices.status.isGranted;
     _loadIpAddress();
   }
