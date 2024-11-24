@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:yo_link/src/entitis/message.dart';
@@ -11,14 +10,14 @@ class YoServer {
   final List<Socket> _connectedClients = [];
 
   // 心跳检测定时器
-  Timer? _heartbeatTimer; 
+  Timer? _heartbeatTimer;
 
   List<Socket> get connectedClients => _connectedClients;
-  static final Uint8List _heartbeatMessage = Uint8List.fromList([0x01]); 
 
   // 事件处理器映射表 {namespace: {eventName: handlers[]}}
-  final Map<String, Map<String, List<Function(dynamic data)>>> _eventHandlers = {};
-  
+  final Map<String, Map<String, List<Function(dynamic data)>>> _eventHandlers =
+      {};
+
   // 注册事件处理器
   void on(String namespace, String eventName, Function(dynamic data) handler) {
     _eventHandlers.putIfAbsent(namespace, () => {});
@@ -27,7 +26,8 @@ class YoServer {
   }
 
   // 移除事件处理器
-  void off(String namespace, String eventName, [Function(dynamic data)? handler]) {
+  void off(String namespace, String eventName,
+      [Function(dynamic data)? handler]) {
     if (handler != null) {
       _eventHandlers[namespace]?[eventName]?.remove(handler);
     } else {
@@ -64,13 +64,12 @@ class YoServer {
       (Uint8List data) {
         try {
           // 解析收到的数据
-          final message = _decodeMessage(data);
-          if (message != null) {
-            final handlers = _eventHandlers[message.namespace]?[message.event];
-            if (handlers != null) {
-              for (var handler in handlers) {
-                handler(message.data);
-              }
+          final message = YoMessage.fromUint8List(data);
+          if (message.namespace.isEmpty || message.event.isEmpty) return;
+          final handlers = _eventHandlers[message.namespace]?[message.event];
+          if (handlers != null) {
+            for (var handler in handlers) {
+              handler(message.data);
             }
           }
         } catch (e) {
@@ -96,7 +95,7 @@ class YoServer {
   startHeartbeat(Socket clientSocket) {
     _heartbeatTimer = Timer.periodic(Duration(seconds: 5), (timer) {
       try {
-        clientSocket.write(_heartbeatMessage);
+        emit(clientSocket, 'system', 'heart_beet', null);
       } catch (e) {
         logger.e('发送心跳错误: $e');
         _connectedClients.remove(clientSocket);
@@ -119,7 +118,7 @@ class YoServer {
   // 发送消息到客户端
   void emit(Socket clientSocket, String namespace, String event, dynamic data) {
     try {
-      final message = _encodeMessage(namespace, event, data);
+      final message = YoMessage.from(namespace, event, data).toUint8List();
       clientSocket.write(message);
     } catch (e) {
       logger.e('发送数据错误: $e');
@@ -130,33 +129,6 @@ class YoServer {
   void broadcast(String namespace, String event, dynamic data) {
     for (var client in _connectedClients) {
       emit(client, namespace, event, data);
-    }
-  }
-
-  // 消息编码
-  Uint8List _encodeMessage(String namespace, String event, dynamic data) {
-    final message = {
-      'namespace': namespace,
-      'event': event,
-      'data': data,
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
-    };
-    return Uint8List.fromList(json.encode(message).codeUnits);
-  }
-
-  // 消息解码
-  YoMessage? _decodeMessage(Uint8List data) {
-    try {
-      final jsonStr = String.fromCharCodes(data);
-      final Map<String, dynamic> message = json.decode(jsonStr);
-      return YoMessage(
-        message['namespace'] as String,
-        message['event'] as String,
-        message['data'],
-      );
-    } catch (e) {
-      logger.e('解码消息错误: $e');
-      return null;
     }
   }
 }

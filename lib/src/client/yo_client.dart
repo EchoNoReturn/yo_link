@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:yo_link/src/entitis/message.dart';
@@ -46,12 +45,11 @@ class YoClient {
         }
 
         try {
-          final YoMessage? messageMap = _decodeMessage(data);
-          if (messageMap != null) {
-            final handlers =
-                _eventHandlers[messageMap.namespace]?[messageMap.event];
-            handlers?.forEach((handler) => handler(messageMap.data));
-          }
+          final YoMessage messageMap = YoMessage.fromUint8List(data);
+          if (messageMap.namespace.isNotEmpty && messageMap.event.isNotEmpty) return;
+          final handlers =
+              _eventHandlers[messageMap.namespace]?[messageMap.event];
+          handlers?.forEach((handler) => handler(messageMap.data));
         } catch (e) {
           logger.e('数据处理错误: $e');
         }
@@ -107,31 +105,10 @@ class YoClient {
     if (!_isConnected) return;
 
     try {
-      final message = _encodeMessage(namespace, event, data);
+      final message = YoMessage.from(namespace, event, data).toUint8List();
       _socket?.add(message);
     } catch (e) {
       logger.e('发送消息错误: $e');
-    }
-  }
-
-  Uint8List _encodeMessage(String namespace, String event, dynamic data) {
-    final message = {
-      'namespace': namespace,
-      'event': event,
-      'data': data,
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
-    };
-    return Uint8List.fromList(json.encode(message).codeUnits);
-  }
-
-  YoMessage? _decodeMessage(Uint8List data) {
-    try {
-      final jsonStr = String.fromCharCodes(data);
-      final message = json.decode(jsonStr);
-      return YoMessage(message['namespace'], message['event'], message['data']);
-    } catch (e) {
-      logger.e('解码消息错误: $e');
-      return null;
     }
   }
 
