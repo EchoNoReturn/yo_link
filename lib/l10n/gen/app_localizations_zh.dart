@@ -40,6 +40,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get document => '使用说明';
+
+  @override
+  String get copy => '点击复制';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -80,4 +83,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get document => '使用说明';
+
+  @override
+  String get copy => '点击复制';
 }

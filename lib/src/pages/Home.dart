@@ -8,7 +8,9 @@ import 'package:yo_link/src/entitis/device_info.dart';
 import 'package:yo_link/src/entitis/help_link_info.dart';
 import 'package:yo_link/src/pages/components/device_info_box.dart';
 import 'package:yo_link/src/pages/components/open_btn.dart';
+import 'package:yo_link/src/utils/device_info.dart';
 import 'package:yo_link/src/utils/logger.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,18 +27,29 @@ class HomePageState extends State<HomePage> {
   var number = 0;
 
   var deviceInfo = DeviceInfo(ip: '', name: '');
+  DeviceInfoPlugin myDeviceInfo = DeviceInfoPlugin();
 
   @override
   void initState() {
     super.initState();
-    // _checkWifiPermission();
+    // var state = await Permission.nearbyWifiDevices.status.isGranted;
     _loadIpAddress();
   }
 
   void _loadIpAddress() async {
+    // 检查网络状态
+    // var wifiState = await Permission.nearbyWifiDevices.status;
+    // if (wifiState.isGranted) {
+    //   logger.d('WiFi 权限已授权');
+    // } else {
+    //   logger.d('WiFi 权限未授权, 开始申请');
+    //   // 需要请求授权
+    //   // Permission.nearbyWifiDevices.request();
+    // }
     final ip = await getIpAddress();
+    final name = await getDeviceName();
     setState(() {
-      deviceInfo.fix(newName: deviceInfo.name, newIp: ip);
+      deviceInfo.fix(newName: name, newIp: ip);
     });
   }
 
@@ -53,37 +66,6 @@ class HomePageState extends State<HomePage> {
       logger.d('WiFi 权限未授权, 开始申请');
       Permission.nearbyWifiDevices.request();
     }
-  }
-
-  void _checkWifiPermission() async {
-    var wifiState = await Permission.nearbyWifiDevices.status;
-    if (wifiState.isGranted) {
-      logger.d('WiFi 权限已授权');
-      // var snackBar = SnackBar(
-      //   content: Text(AppLocalizations.of(context)!.wifiPermissionDenied),
-      //   action: SnackBarAction(
-      //     label: AppLocalizations.of(context)!.openSettings,
-      //     onPressed: () {
-      //       openAppSettings();
-      //     },
-      //   ),
-      // );
-    } else if (wifiState.isDenied) {
-      logger.d('WiFi 权限未授权, 开始申请');
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("请授予权限")));
-      Permission.nearbyWifiDevices.request();
-    } else if (wifiState.isPermanentlyDenied) {
-      logger.d('WiFi 权限被永久拒绝, 请手动开启');
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("请授予权限")));
-    }
-  }
-
-  Future<String> getIpAddress() async {
-    final info = NetworkInfo();
-    final wifiIP = await info.getWifiIP();
-    return wifiIP ?? 'Unknown';
   }
 
   void _handleClick(BuildContext context) {
@@ -166,9 +148,8 @@ class HomePageState extends State<HomePage> {
                     children: [
                       // 两个按钮
                       ElevatedButton(
-                        onPressed: () => {
-                          Navigator.pushNamed(context, '/link_config')
-                        },
+                        onPressed: () =>
+                            {Navigator.pushNamed(context, '/link_config')},
                         style: ElevatedButton.styleFrom(
                           elevation: 3,
                           backgroundColor:

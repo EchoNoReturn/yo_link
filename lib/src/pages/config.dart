@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yo_link/src/utils/logger.dart';
-import 'package:file_picker/file_picker.dart';
 
 class ConfigPage extends StatefulWidget {
   const ConfigPage({super.key});
@@ -99,13 +98,7 @@ class _ConfigPageState extends State<ConfigPage> {
                 subtitle: Text(fileDropPath),
                 trailing: const Icon(Icons.folder_open),
                 onTap: () async {
-                  String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
-                  if (selectedDirectory != null) {
-                    setState(() {
-                      fileDropPath = selectedDirectory;
-                    });
-                    await saveConfigs();
-                  }
+                  logger.i('选择文件保存位置');
                 },
               ),
               const Divider(),

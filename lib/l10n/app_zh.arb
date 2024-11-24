@@ -45,5 +45,7 @@
   "qq": "腾讯QQ",
   "@qq": {},
   "document": "使用说明",
-  "@document": {}
+  "@document": {},
+  "copy": "点击复制",
+  "@copy": {}
 }

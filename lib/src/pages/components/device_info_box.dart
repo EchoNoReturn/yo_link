@@ -23,25 +23,21 @@ class _DeviceInfoBoxState extends State<DeviceInfoBox> {
     return Center(
         child: Column(
       children: [
-        Text(AppLocalizations.of(context)!.deviceIpInfo(widget.data.ip)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(AppLocalizations.of(context)!.deviceName(widget.data.name)),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: IconButton(
-                icon: Icon(Icons.copy),
-                padding: const EdgeInsets.all(0.0),
-                alignment: Alignment.center,
-                iconSize: 14.0,
-                onPressed: () {
-                  widget.data.copy();
-                },
-              ),
-            )
-          ],
+        Text(
+          widget.data.name,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+        Text(widget.data.ip),
+        TextButton.icon(
+          icon: Icon(Icons.copy, size: 13,),
+          label: Text(AppLocalizations.of(context)!.copy),
+          onPressed: () {
+            widget.data.copy();
+          },
+        )
       ],
     ));
   }

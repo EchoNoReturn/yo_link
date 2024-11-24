@@ -4,7 +4,7 @@ import '../utils/logger.dart';
 class DeviceInfo {
   String _ip = '';
   String _name = '';
-  bool _isCurrentDevice = false;
+  final bool _isCurrentDevice = false;
 
   // 让 ip 和 name 只读
   String get ip {
@@ -23,7 +23,7 @@ class DeviceInfo {
     required String ip,
     required String name,
     bool isCurrentDevice = false,
-  }) : _name = name, _ip = ip, _isCurrentDevice = isCurrentDevice;
+  }) : _name = name, _ip = ip;
 
   /// 修改ip
   void fixIp(String newIp) {

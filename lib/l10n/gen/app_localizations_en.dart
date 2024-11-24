@@ -40,4 +40,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get document => 'Help Document';
+
+  @override
+  String get copy => 'Click to copy information';
 }

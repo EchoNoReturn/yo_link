@@ -45,5 +45,7 @@
   "qq": "QQ",
   "@qq": {},
   "document": "Help Document",
-  "@document": {}
+  "@document": {},
+  "copy": "Click to copy information",
+  "@copy": {}
 }

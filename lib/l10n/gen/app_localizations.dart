@@ -152,6 +152,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Help Document'**
   String get document;
+
+  /// No description provided for @copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Click to copy information'**
+  String get copy;
 }
 
 class _AppLocalizationsDelegate
